@@ -14,7 +14,7 @@ window.addEventListener('DOMContentLoaded', () => {
       tabContent[i].classList.add('hide');
     }
   }
-  
+
   function showTabContent(index) {
     if (tabContent[index].classList.contains('hide')) {
       tabContent[index].classList.remove('hide');
@@ -86,6 +86,78 @@ window.addEventListener('DOMContentLoaded', () => {
       }
     }
   }
+
+  // Model window
+  const moreBtn = document.querySelector('.more');
+  const overlay = document.querySelector('.overlay');
+  const close = document.querySelector('.popup-close');
+  const tabsBtn = document.querySelectorAll('.description-btn');
+
+  moreBtn.addEventListener('click', onShowModel);
+  tabsBtn.forEach(btn => btn.addEventListener('click', onShowModel));
+  close.addEventListener('click', onHideModel);
+
+  function onShowModel() {
+    overlay.style.display = 'block';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function onHideModel() {
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  // Send FormData
+  const message = {
+    loading: 'Загрузка...',
+    success: 'Спасибо, скоро мы с Вами свяжемся!',
+    fail: 'Что-то пошло не так...'
+  };
+
+  const form = document.querySelector('.main-form');
+  const inputs = form.getElementsByTagName('input');
+  const statusMessage = document.createElement('div');
+
+  statusMessage.classList.add('status');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    form.appendChild(statusMessage);
+
+    const formData = new FormData(form);
+    const data = {};
+
+    for (const [key, value] of formData.entries()) {
+      data[key] = value;
+    }
+
+    const jsonData = JSON.stringify(data);
+
+    const request = new XMLHttpRequest();
+    request.open('POST', 'server.php');
+    request.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+    request.send(jsonData);
+
+    request.addEventListener('readystatechange', () => {
+      if (request.readyState < 4) {
+        statusMessage.innerHTML = message.loading;
+      } else if (request.readyState === 4 && request.status === 200) {
+        statusMessage.innerHTML = message.success;
+      } else {
+        statusMessage.innerHTML = message.fail;
+      }
+    });
+
+    for (let i = 0; i < inputs.length; i++) {
+      inputs[i].value = '';
+    }
+
+    setTimeout(() => {
+      statusMessage.remove();
+    }, 3000);
+  });
+
+
 
 
 });
