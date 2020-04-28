@@ -2,9 +2,10 @@
 
 My Solution: 
 
-- [DEMO-LINK](https://mikhail-88.github.io/layout_yoga_js/)
+- [DEMO-LINK](https://mikhail-88.github.io/layout_yoga_js/src/)
 
-You have complete website layout (index.html and style.css) - make it interactive.
+This is the implementation of a simple landing page, where need to complete following tasks using vanilla JavaScript.
+
 Tasks:
 
 - when you click on button: 'know more' - a modal window should be called;
@@ -12,4 +13,5 @@ Tasks:
 - tabs should be implemented;
 - trip cost calculator should be implemented;
 - carousel slider should be implemented;
-- timer should be implemented.
+- timer should be implemented;
+- combine project JS files using Webpack.
